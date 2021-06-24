@@ -11,7 +11,12 @@ const taskInput = document.querySelector('#task')
 loadEventListeners();
 
 function loadEventListeners(){
+    //add task
     form.addEventListener('submit', addTask);
+    //remove task
+    taskList.addEventListener('click', removeTask)
+    //clear all tasks
+    clearBtn.addEventListener('click', clearTasks)
 }
 
 //adding a task, if nothing is present give an alert
@@ -38,5 +43,18 @@ function addTask(e){
     e.preventDefault()
 }
 
+function removeTask(e){
+    if(e.target.parentElement.classList.contains('delete-item')){
+        if(confirm('Are you sure?')) {
+            e.target.parentElement.parentElement.remove()
+        }
+    }
+}
 
+function clearTasks(e){
+    //taskList.innerHTML = '';
 
+    while(taskList.firstChild){
+        taskList.removeChild(taskList.firstChild);
+    }
+}
