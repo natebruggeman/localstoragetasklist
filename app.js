@@ -11,6 +11,8 @@ const taskInput = document.querySelector('#task')
 loadEventListeners();
 
 function loadEventListeners(){
+    //DOM load event
+    document.addEventListener('DOMContentLoaded', getTasks);
     //add task
     form.addEventListener('submit', addTask);
     //remove task
@@ -19,6 +21,33 @@ function loadEventListeners(){
     clearBtn.addEventListener('click', clearTasks)
     //filter tasks
     filter.addEventListener('keyup', filterTasks)
+    
+}
+//getting tasks from localstorage
+function getTasks(){
+    let tasks;
+    if(localStorage.getItem('tasks') === null){
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    tasks.forEach(function(task){
+        //create list element
+        const li = document.createElement('li');
+        // give list element a class
+        li.className = 'collection-item';
+        // create text in the list item and append to li
+        li.appendChild(document.createTextNode(task))
+        // Create new link element (X next to list item for deletion)
+        const link = document.createElement('a');
+        link.className = 'delete-item secondary-content';
+        link.innerHTML = '<i class="fa fa-check"></i>'
+        //append link to the li
+        li.appendChild(link);
+        //append li to ul
+        taskList.appendChild(li)
+    });
 }
 
 //adding a task, if nothing is present give an alert
