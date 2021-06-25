@@ -42,8 +42,25 @@ function addTask(e){
     //append li to ul
     taskList.appendChild(li)
 
+    //Storing to local storage
+    storeTask(taskInput.value);
+
     e.preventDefault()
 }
+
+function storeTask(task){
+    let tasks;
+    if(localStorage.getItem('tasks') === null){
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    tasks.push(task)
+
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+}
+
 
 function removeTask(e){
     if(e.target.parentElement.classList.contains('delete-item')){
@@ -64,7 +81,7 @@ function filterTasks(e){
 
     document.querySelectorAll('.collection-item').forEach(function(task){
         const item = task.firstChild.textContent;
-        
+
         if(item.toLowerCase().indexOf(text) != -1){
             task.style.display = 'block';
         } else {
